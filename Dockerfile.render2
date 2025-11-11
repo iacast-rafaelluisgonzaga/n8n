@@ -1,0 +1,14 @@
+# Dockerfile diagnóstico — coloca na raiz como ./Dockerfile
+FROM n8nio/n8n:latest
+
+# Mostra onde o binário n8n está (aparece no log do build)
+RUN if command -v n8n >/dev/null 2>&1; then echo "n8n found at: $(command -v n8n)"; n8n --version; else echo "n8n NOT found"; fi
+
+WORKDIR /home/node
+
+ENV GENERIC_TIMEZONE=America/Sao_Paulo
+ENV N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+
+EXPOSE 5678
+
+CMD ["n8n", "start"]
