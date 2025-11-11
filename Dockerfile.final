@@ -1,0 +1,22 @@
+# Usa a imagem oficial do n8n
+FROM n8nio/n8n:latest
+
+# Temporariamente vira root para instalar certificados
+USER root
+RUN apk add --no-cache ca-certificates openssl && update-ca-certificates
+
+# Retorna para o usuário padrão (node)
+USER node
+
+# Define timezone e corrige permissões
+ENV GENERIC_TIMEZONE=America/Sao_Paulo
+ENV N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
+
+# Expõe a porta padrão
+EXPOSE 5678
+
+# Mantém o entrypoint original do n8n (tini)
+ENTRYPOINT ["tini", "--"]
+
+# Comando padrão (executa n8n)
+CMD ["n8n"]
