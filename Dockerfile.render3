@@ -1,0 +1,14 @@
+# Usa a imagem oficial do n8n
+FROM n8nio/n8n:latest
+
+# Instala certificados raiz e atualiza CA
+USER root
+RUN apk add --no-cache ca-certificates openssl && update-ca-certificates
+USER node
+
+# Define timezone
+ENV GENERIC_TIMEZONE=America/Sao_Paulo
+
+# Expõe porta e inicia n8n
+EXPOSE 5678
+CMD ["n8n", "start"]
